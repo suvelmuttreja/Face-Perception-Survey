@@ -1,0 +1,20 @@
+{
+  "locations": [
+    {
+      "final x": 311,
+      "final y": 84,
+      "src": "http://127.0.0.1:5000/uploads/banana.mp4"
+    },
+    {
+      "final x": 51,
+      "final y": 308,
+      "src": "http://127.0.0.1:5000/uploads/Circle_Cut_x264.mp4"
+    },
+    {
+      "final x": 650,
+      "final y": 311,
+      "src": "http://127.0.0.1:5000/uploads/Ramdom_Lines_x264.mp4"
+    }
+  ],
+  "question": "Arrange from most to least trustworthy"
+}
