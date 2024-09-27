@@ -1,147 +1,154 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>User</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
     <style>
-        #uploadForm, #gallery, #saveButton, #locationFileInput, #coordinateInput, #coordinatesBlock{
-            display: none;
-        }
-        #circleContainer {
-            width: 600px;
-            height: 600px;
-            border: 1px solid #ccc;
-            position: relative;
-            margin: auto;
-    margin-top: 1rem ;
-    margin-bottom: 1rem ;
-    margin-left: 30%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content:center;
-        }
-        svg {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-        }
-        circle {
-            fill: none;
-            stroke: #000;
-            stroke-width: 2;
-        }
-        #circleSvg {
-            display: block;
-        }
-        p{
-            margin-top: 1rem;
-            margin-bottom: -1rem;
-            font-size: 1.8rem;
-            margin-left: .8rem;
-        }
+      #uploadForm,
+      #gallery,
+      #saveButton,
+      #locationFileInput,
+      #coordinateInput,
+      #coordinatesBlock {
+        display: none;
+      }
+      #circleContainer {
+        width: 600px;
+        height: 600px;
+        border: 1px solid #ccc;
+        position: relative;
+        margin: auto;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        margin-left: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      svg {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+      }
+      circle {
+        fill: none;
+        stroke: #000;
+        stroke-width: 2;
+      }
+      #circleSvg {
+        display: block;
+      }
+      p {
+        margin-top: 1rem;
+        margin-bottom: -1rem;
+        font-size: 1.8rem;
+        margin-left: 0.8rem;
+      }
 
-        * {
-    
-    box-sizing: border-box;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
-        svg {
-            border: 1px solid #ccc;
-            width: 100%;
-            height: 100%;
-        }
+      * {
+        box-sizing: border-box;
+        font-family: Georgia, "Times New Roman", Times, serif;
+      }
+      svg {
+        border: 1px solid #ccc;
+        width: 100%;
+        height: 100%;
+      }
 
-        * {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        font-family: Georgia, "Times New Roman", Times, serif;
+      }
 
-/* set font-size to root element */
-html {
-    font-size: 62.5%;
-}
+      /* set font-size to root element */
+      html {
+        font-size: 62.5%;
+      }
 
-/* heading styling */
-#question{
-    margin: 2rem;
-    font-size: 3.5rem;
-    width: 46%;
-    margin: auto;
-    margin-top: 1rem ;
-    margin-bottom: 1rem ;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content:center;
-}
+      /* heading styling */
+      #question {
+        margin: 2rem;
+        font-size: 3.5rem;
+        width: 46%;
+        margin: auto;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
-#svg{
-    margin: auto;
-    margin-top: 1rem ;
-    margin-bottom: 1rem ;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content:center;
-}
+      #svg {
+        margin: auto;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
 
-/* SignIn Button styling */
-#saveFinalLocations {
-    width: 25%;
-    height: 5rem;
-    padding: 1rem;
-    border-radius:10px;
-    border: none;
-    background-color: #4727FF;
-    color: white;
-    font-size: 1.6rem;
-    font-weight: bold;
-    cursor: pointer;
-    margin: auto;
-    margin-top: 1rem ;
-    margin-bottom: 1rem ;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content:center;
-}
-#saveFinalLocations:hover{
-    border: 2px solid #4727FF;
-    background-color: rgb(255, 255, 255);
-    color: #4727FF;
-}
+      /* SignIn Button styling */
+      #saveFinalLocations {
+        width: 25%;
+        height: 5rem;
+        padding: 1rem;
+        border-radius: 10px;
+        border: none;
+        background-color: #4727ff;
+        color: white;
+        font-size: 1.6rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin: auto;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      #saveFinalLocations:hover {
+        border: 2px solid #4727ff;
+        background-color: rgb(255, 255, 255);
+        color: #4727ff;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1 contenteditable="true" id="question">Behavioral Arrangement Task</h1>
     <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="files[]" multiple>
-        <button type="submit">Upload</button>
+      <input type="file" name="files[]" multiple />
+      <button type="submit">Upload</button>
     </form>
     <div id="gallery"></div>
     <div id="circleContainer"></div>
-    <input type="file" id="locationFileInput">
+    <input type="file" id="locationFileInput" />
     <button id="saveFinalLocations">Save Final Locations</button>
-    <button id="saveButton">Save Initial Locations</button>
-    <div id="coordinateInput" style="display: none;">
-        <label for="xCoord">X:</label>
-        <input type="number" id="xCoord">
-        <label for="yCoord">Y:</label>
-        <input type="number" id="yCoord">
-        <button id="setCoordinates">Set Coordinates</button>
+    <div id="coordinateInput" style="display: none">
+      <label for="xCoord">X:</label>
+      <input type="number" id="xCoord" />
+      <label for="yCoord">Y:</label>
+      <input type="number" id="yCoord" />
+      <button id="setCoordinates">Set Coordinates</button>
     </div>
     <div id="coordinatesBlock"></div>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            renderCircle();
-            loadSavedLocationsFromDatabase();
-        });
+      document.addEventListener("DOMContentLoaded", function () {
+        renderCircle();
+        loadSavedLocationsFromDatabase();
+      });
     </script>
-</body>
+  </body>
 </html>
