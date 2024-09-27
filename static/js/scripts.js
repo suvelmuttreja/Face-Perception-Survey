@@ -11,6 +11,16 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
       });
 });
 
+document.getElementById('logout').addEventListener('click', function () {
+    //clear session and redirect to admin login
+    fetch('/logout', {method: 'POST'}).then(response => {
+        if (response.redirected) {
+            // Handle the redirection
+            window.location.href = response.url;
+        } 
+    })
+});
+
 document.getElementById('saveFinalLocations').addEventListener('click', function () {
     // Save user locations
     saveLocations('/save_user_locations', 'final_x', 'final_y');
@@ -294,7 +304,7 @@ function placeSavedVideos(savedData) {
 
 
 function loadSavedLocationsFromDatabase() {
-    fetch('/load_admin_locations')
+    fetch('/load_admin_locations', {method: 'POST'})
         .then(response => response.json())
         .then(data => {
             placeSavedVideos(data);

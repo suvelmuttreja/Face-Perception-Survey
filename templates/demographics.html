@@ -1,151 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demographics</title>
     <style>
-        /*h1 {text-align: center;}
+      /*h1 {text-align: center;}
         p {text-align: center;}
         form {text-align: center;}
         div {margin: auto;}
         input, label {margin-bottom: .5%;}*/
-        /* css reset */
-* {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-    font-family: Georgia, 'Times New Roman', Times, serif;
-}
+      /* css reset */
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        font-family: Georgia, "Times New Roman", Times, serif;
+      }
 
-/* set font-size to root element */
-html {
-    font-size: 62.5%;
-}
+      /* set font-size to root element */
+      html {
+        font-size: 62.5%;
+      }
 
-/* Main container styling */
-#container {
-    height: 40rem;
-    background-color: rgb(255, 255, 255);
-    width: 46%;
-    margin: auto;
-    margin-top: 10rem ;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content:center;
-    box-shadow: 1px 1px 29px 2px rgb(204 201 201);
-    border-radius: 15px;
-}
+      /* Main container styling */
+      #container {
+        height: 40rem;
+        background-color: rgb(255, 255, 255);
+        width: 46%;
+        margin: auto;
+        margin-top: 10rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 1px 1px 29px 2px rgb(204 201 201);
+        border-radius: 15px;
+      }
 
-#container2 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-/* heading styling */
-#heading{
-    margin: 2rem;
-    font-size: 3.5rem;
-}
+      #container2 {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      /* heading styling */
+      #heading {
+        margin: 2rem;
+        font-size: 3.5rem;
+      }
 
-/* labels styling */
-.label {
-    color: rgb(90, 90, 90);
-    font-size: 1.5rem;
-    padding: 0.1rem;
-}
+      /* labels styling */
+      .label {
+        color: rgb(90, 90, 90);
+        font-size: 1.5rem;
+        padding: 0.1rem;
+      }
 
-/* input styling */
-.input {
-    padding: 1.2rem;
-    margin: 1rem;
-    width: 71%;
-    border: 2px solid black;
-    border-radius: 16px;
-    outline:none;
-}
-.input:focus{
-    border:2px solid #2F4AFF;
-}
+      /* input styling */
+      .input {
+        padding: 1.2rem;
+        margin: 1rem;
+        width: 71%;
+        border: 2px solid black;
+        border-radius: 16px;
+        outline: none;
+      }
+      .input:focus {
+        border: 2px solid #2f4aff;
+      }
 
-/* SignIn Button styling */
-#signInBtn {
-    width: 71%;
-    height: 5rem;
-    padding: 1rem;
-    margin: 2rem;
-    margin-top:2rem;
-    border-radius:10px;
-    border: none;
-    background-color: #4727FF;
-    color: white;
-    font-size: 1.6rem;
-    font-weight: bold;
-    cursor: pointer;
-}
-#signInBtn:hover{
-    border: 2px solid #4727FF;
-    background-color: rgb(255, 255, 255);
-    color: #4727FF;
-}
-</style>
-</head>
-<body>
+      /* SignIn Button styling */
+      #signInBtn {
+        width: 71%;
+        height: 5rem;
+        padding: 1rem;
+        margin: 2rem;
+        margin-top: 2rem;
+        border-radius: 10px;
+        border: none;
+        background-color: #4727ff;
+        color: white;
+        font-size: 1.6rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      #signInBtn:hover {
+        border: 2px solid #4727ff;
+        background-color: rgb(255, 255, 255);
+        color: #4727ff;
+      }
+    </style>
+  </head>
+  <body>
     <div id="container">
-    <h1 id="heading">Demographics Information</h1>
-    <form action="{{ url_for('demographics') }}" method="POST">
-        <div id="container2">
+      <div>
+        <h2 id="heading">Demographics Information:</h2>
+        <form action="{{ url_for('demographics') }}" method="POST">
+          <div id="container2">
             <label for="participant_id" class="label">Net ID:</label>
-            <input class="input" type="text" id="participant_id" name="participant_id" required><br>
-    </div>
-        
-        <label for="age" class="label">Age:</label>
-        <input class="input" type="number" id="age" name="age" required><br>
+            <input
+              class="input"
+              type="text"
+              id="participant_id"
+              name="participant_id"
+              required
+            /><br />
+          </div>
 
-        <label for="gender" class="label">Gender:</label>
-        <select class="input" id="gender" name="gender">
-            <option value=" "> </option>
+          <label for="age" class="label">Age:</label>
+          <input
+            class="input"
+            type="number"
+            id="age"
+            name="age"
+            required
+          /><br />
+
+          <label for="gender" class="label">Gender:</label>
+          <select class="input" id="gender" name="gender">
+            <option value=" "></option>
             <option value="man">Man</option>
             <option value="woman">Woman</option>
             <option value="other">Other</option>
-            <option value="no_answer">Prefer Not to Say</option>
-        </select><br>
+            <option value="no_answer">Prefer Not to Say</option></select
+          ><br />
 
-        <div id="container2">
-        <label for="education" class="label">Highest Level of Education:</label>
-        <select class="input" id="education" name="education">
-            <option value="none">None</option>
-            <option value="high_school">High School</option>
-            <option value="associate">Associate's Degree</option>
-            <option value="bachelor">Bachelor's Degree</option>
-            <option value="master">Master's Degree</option>
-            <option value="doctorate">Doctorate</option>
-        </select><br></div>
+          <div id="container2">
+            <label for="education" class="label"
+              >Highest Level of Education:</label
+            >
+            <select class="input" id="education" name="education">
+              <option value="none">None</option>
+              <option value="high_school">High School</option>
+              <option value="associate">Associate's Degree</option>
+              <option value="bachelor">Bachelor's Degree</option>
+              <option value="master">Master's Degree</option>
+              <option value="doctorate">Doctorate</option></select
+            ><br />
+          </div>
 
-        <div id="container2">
-        <label for="handedness" class="label">Handedness:</label>
-        <select class="input" id="handedness" name="handedness">
-            <option value=" "> </option>
-            <option value="right">Right</option>
-            <option value="left">Left</option>
-            <option value="ambidextrous">Ambidextrous</option>
-        </select><br></div>
+          <div id="container2">
+            <label for="handedness" class="label">Handedness:</label>
+            <select class="input" id="handedness" name="handedness">
+              <option value=" "></option>
+              <option value="right">Right</option>
+              <option value="left">Left</option>
+              <option value="ambidextrous">Ambidextrous</option></select
+            ><br />
+          </div>
 
-        <label for="ethnicity" class="label">Ethnicity:</label>
-        <select class="input" id="ethnicity" name="ethnicity">
-            <option value=" "> </option>
+          <label for="ethnicity" class="label">Ethnicity:</label>
+          <select class="input" id="ethnicity" name="ethnicity">
+            <option value=" "></option>
             <option value="asian">Asian</option>
             <option value="black">Black or African American</option>
             <option value="hispanic">Hispanic or Latino</option>
-            <option value="native_american">Native American or Alaska Native</option>
+            <option value="native_american">
+              Native American or Alaska Native
+            </option>
             <option value="pacific_islander">Pacific Islander</option>
             <option value="white">White</option>
-            <option value="other">Other</option>
-        </select><br>
+            <option value="other">Other</option></select
+          ><br />
 
-        <button id="signInBtn" type="submit">Submit</button>
-    </form>
+          <button id="signInBtn" type="submit">Submit</button>
+        </form>
+      </div>
     </div>
-</body>
+  </body>
 </html>
