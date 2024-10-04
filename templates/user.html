@@ -130,6 +130,14 @@
       <input type="file" name="files[]" multiple />
       <button type="submit">Upload</button>
     </form>
+    <button id="confirmButton">Are you sure?</button>
+    <script>
+      document.getElementById("confirmButton").addEventListener("click", function () {
+        if (confirm("Are you sure you want to submit?")) {
+          document.getElementById("uploadForm").submit();
+        }
+      });
+    </script>
     <div id="gallery"></div>
     <div id="circleContainer"></div>
     <input type="file" id="locationFileInput" />
