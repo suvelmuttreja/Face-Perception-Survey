@@ -12,6 +12,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 from dotenv import load_dotenv
+from datetime import datetime
 
 # Load environment variables from .env file
 load_dotenv()
@@ -182,6 +183,50 @@ def save_admin_locations():
     db.session.commit()
     return jsonify({"message": "Admin locations saved successfully"})
 
+
+@app.route('/set_start_time', methods=['POST'])
+def set_start_time():
+    if 'user_id' not in session:
+        return jsonify({'message': 'User not logged in'}), 401
+
+    data = request.get_json()
+    user_id = session['user_id']
+
+    # Get video sources from the request data
+    video_sources = data.get('videos', [])
+
+    # Create a UserLocation entry for each video with the initial start_time
+    for src in video_sources:
+        user_location = UserLocation(
+            src=src,
+            start_time=datetime.utcnow(),
+            user_id=user_id
+        )
+        db.session.add(user_location)
+
+    db.session.commit()
+
+    return jsonify({'message': 'Start time recorded for all videos'})
+
+@app.route('/save_end_time', methods=['POST'])
+def save_end_time():
+    if 'user_id' not in session:
+        return jsonify({'message': 'User not logged in'}), 401
+
+    data = request.get_json()
+    user_id = session['user_id']
+
+    video_sources = data.get('videos', [])
+
+    # Update the end_time for each video
+    for src in video_sources:
+        location = UserLocation.query.filter_by(user_id=user_id, src=src).first()
+        if location:
+            location.end_time = datetime.utcnow()  # Set the current time as end_time
+
+    db.session.commit()
+
+    return jsonify({'message': 'End time recorded for all videos'})
 
 @app.route("/save_user_locations", methods=["POST"])
 def save_user_locations():

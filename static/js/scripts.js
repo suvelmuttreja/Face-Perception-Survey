@@ -256,6 +256,46 @@ function setCoordinatesForVideo(src, x, y) {
     });
 }
 
+// Handle hover events for video playback and scaling
+const videos = document.querySelectorAll('.video-thumbnail');
+
+videos.forEach(video => {
+  // Play video when hovered and set it to loop
+  video.addEventListener('mouseenter', () => {
+    video.play();
+    video.loop = true; // Ensure looping on hover
+  });
+
+  // Pause video when mouse leaves
+  video.addEventListener('mouseleave', () => {
+    video.pause();
+  });
+
+  // Toggle play/pause on click
+  video.addEventListener('click', () => {
+    if (video.paused) {
+      video.play();
+    } else {
+      video.pause();
+    }
+  });
+});
+
+document.querySelectorAll('.foreignObject').forEach(video => {
+    video.addEventListener('mousemove', function (event) {
+        // Get bounding box of the video element
+        const rect = video.getBoundingClientRect();
+        
+        // Calculate the mouse position relative to the video element
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+        
+        // Set the transform-origin based on the mouse position
+        video.style.transformOrigin = `${x}px ${y}px`;
+    });
+});
+
+
 function placeSavedVideos(savedData) {
     let svg = d3.select("svg");
     
@@ -300,6 +340,109 @@ function placeSavedVideos(savedData) {
     }
 
     updateCoordinatesBlock();
+}
+document.addEventListener('DOMContentLoaded', function () {
+    // Run initial check on load
+    checkClipsInCircle();
+
+    // Set up an observer to monitor for changes (like drag events)
+    const observer = new MutationObserver(() => {
+        checkClipsInCircle();
+    });
+
+    observer.observe(document.getElementById('circleContainer'), {
+        childList: true,
+        subtree: true,
+        attributes: true
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the sources of all videos currently displayed
+    let videoSources = [];
+    d3.selectAll('foreignObject').each(function() {
+        videoSources.push(d3.select(this).attr('data-src')); // Assuming 'data-src' holds the video URL or identifier
+    });
+
+    // Send a request to set start_time for all videos
+    fetch('/set_start_time', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ videos: videoSources })
+    });
+});
+
+document.getElementById('saveFinalLocations').addEventListener('click', function() {
+    let videoSources = [];
+    d3.selectAll('foreignObject').each(function() {
+        videoSources.push(d3.select(this).attr('data-src')); // Assuming 'data-src' holds the video identifier
+    });
+
+    // Send the sources to save the end time
+    fetch('/save_end_time', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ videos: videoSources })
+    }).then(response => response.json())
+      .then(data => console.log(data.message));
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    checkClipsInCircle();
+
+    // Set up an observer to monitor for changes (like drag events)
+    const observer = new MutationObserver(() => {
+        checkClipsInCircle();
+    });
+
+    observer.observe(document.getElementById('circleContainer'), {
+        childList: true,
+        subtree: true,
+        attributes: true
+    });
+});
+
+function checkClipsInCircle() {
+    const notification = document.getElementById('notification');
+    const saveButton = document.getElementById('saveFinalLocations');
+
+    if (!areClipsWithinCircle()) {
+        notification.textContent = 'One or more clips are outside the circle. Please move them into the circle.';
+        saveButton.disabled = true; 
+    } else {
+        notification.textContent = '';  
+        saveButton.disabled = false;  
+    }
+}
+
+function areClipsWithinCircle() {
+    let centerX = 300; 
+    let centerY = 300; 
+    let radius = 250;  
+    let isValid = true;
+
+    d3.selectAll("foreignObject").each(function () {
+        let bbox = this.getBBox(); 
+        let clipCenterX = bbox.x + (bbox.width / 2);
+        let clipCenterY = bbox.y + (bbox.height / 2); 
+
+
+        let distance = Math.sqrt(Math.pow(clipCenterX - centerX, 2) + Math.pow(clipCenterY - centerY, 2));
+
+ 
+        if (distance > radius) {
+            isValid = false; 
+        }
+    });
+
+    return isValid; 
 }
 
 

@@ -30,4 +30,31 @@ circle {
 
 .foreignObject {
   pointer-events: all;
+  position: absolute; 
+  object-fit: cover;
+}
+
+
+/* Styles for the video thumbnails */
+.video-thumbnail {
+  width: 100px;
+  height: 50px;
+  object-fit: cover;
+  transition: transform 0.3s ease; /* Smooth hover animation */
+  z-index: 0;
+  transform-origin: center; /* Scale from the center */
+}
+
+/* Scale both the foreignObject and video-thumbnail on hover */
+foreignObject:hover {
+  transform: scale(1.5); /* Scale the container (foreignObject) */
+  z-index: 10;
+  /*transform-origin: center; /* Scale from the center */
+}
+
+/* Video scaling on hover */
+.video-thumbnail:hover {
+  transform: scale(1.5); /* Expand video on hover */
+  z-index: 10; /* Bring hovered video to the front */
+  /*transform-origin: center; /* Scale from the center */
 }
