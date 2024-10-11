@@ -11,7 +11,8 @@ document.getElementById('uploadForm').addEventListener('submit', function (e) {
       });
 });
 
-document.getElementById('logout').addEventListener('click', function () {
+let logoutButton = document.getElementById('logout')
+if(logoutButton != null) logoutButton.addEventListener('click', function () {
     //clear session and redirect to admin login
     fetch('/logout', {method: 'POST'}).then(response => {
         if (response.redirected) {
@@ -21,12 +22,13 @@ document.getElementById('logout').addEventListener('click', function () {
     })
 });
 
-document.getElementById('saveFinalLocations').addEventListener('click', function () {
+if(document.getElementById('saveFinalLocations') != null) document.getElementById('saveFinalLocations').addEventListener('click', function () {
     // Save user locations
     saveLocations('/save_user_locations', 'final_x', 'final_y');
 });
 
-document.getElementById('saveButton').addEventListener('click', function () {
+if(document.getElementById('saveButton') != null) document.getElementById('saveButton').addEventListener('click', function () {
+    console.log("save button clicked");
     // Save admin locations
     saveLocations('/save_admin_locations', 'initial_x', 'initial_y');
 });
@@ -114,6 +116,11 @@ function setCoordinatesForSelectedVideo(x, y) {
 }
 
 function handleDragStart(event) {
+    // if (event.target.style.transform === 'scale(7)') {
+    //     event.target.style.transform = 'scale(1)';
+    //     // foreignObject.style.position = 'relative'; // Reset position
+    //     event.target.style.zIndex = '1'; // Reset z-index
+    // } 
     event.dataTransfer.setData('text/plain', event.target.dataset.src);
 }
 
@@ -151,20 +158,21 @@ function renderCircle() {
         let src = event.dataTransfer.getData('text/plain');
         let draggedVideo = document.querySelector(`video[data-src='${src}']`);
         let existingForeignObject = d3.select(`foreignObject video[data-src='${draggedVideo.dataset.src}']`).node()?.parentElement;
-
+    
         if (draggedVideo && existingForeignObject) {
             // If the video is already in the circle, update its position
             let x = event.offsetX - 25;
             let y = event.offsetY - 25;
-
+    
             d3.select(existingForeignObject)
                 .attr("x", x)
                 .attr("y", y);
         } else if (draggedVideo) {
+            console.log("found dragged video")
             // Otherwise, add it to the circle
             let x = event.offsetX - 25;
             let y = event.offsetY - 25;
-
+    
             let video = document.createElementNS("http://www.w3.org/1999/xhtml", "video");
             video.src = draggedVideo.src;
             video.width = 50;
@@ -175,7 +183,24 @@ function renderCircle() {
             video.dataset.src = src;
             video.addEventListener('dragstart', handleDragStart);
             video.addEventListener('click', handleVideoClick);
-
+    
+            // Add hover functionality to enlargen video on hover
+            video.addEventListener('contextmenu', function (e) {
+                e.preventDefault(); // Prevent the default right-click context menu
+    
+                // Toggle the 'enlarged' state for the video
+                if (video.style.transform === 'scale(7)') {
+                    video.style.transform = 'scale(1)';
+                    video.style.position = 'relative'; // Reset position
+                    video.style.zIndex = '1'; // Reset z-index
+                } else {
+                    video.style.transform = 'scale(7)'; // Enlarge the video
+                    video.style.transition = 'transform 0.3s ease'; // Smooth transition
+                    video.style.position = 'absolute'; // Take it out of normal flow
+                    video.style.zIndex = '100'; // Bring it to the top
+                }
+            });
+    
             let foreignObject = svg.append("foreignObject")
                 .attr("x", x)
                 .attr("y", y)
@@ -188,11 +213,12 @@ function renderCircle() {
                             .attr("y", event.y - 25);
                     })
                 ).node();
-
+    
             foreignObject.appendChild(video);
         }
         updateCoordinatesBlock();
     });
+    
 }
 
 
@@ -309,10 +335,15 @@ function placeSavedVideos(savedData) {
         if (!existingVideo) {
             let video = document.createElementNS("http://www.w3.org/1999/xhtml", "video");
             video.src = location.src;
-            video.width = 50;
-            video.controls = true;
+            // video.width = 50;
+            video.autoplay = true; // Start playing automatically
+            video.loop = true; // Loop the video indefinitely
+            video.muted = true; // Ensure the video plays without sound
             video.draggable = true;
             video.autoplay = true;
+            video.style.width = '100%';  // Make the video fit its container
+            video.style.height = '100%';  // Make the video fit its container
+            video.style.objectFit = 'cover';  // Ensure the video content scales properly within the bounding box
             video.loop = true;
             video.dataset.src = location.src;
             video.addEventListener('dragstart', handleDragStart);
@@ -321,17 +352,37 @@ function placeSavedVideos(savedData) {
             let foreignObject = svg.append("foreignObject")
                 .attr("x", location.initial_x - 25)  // Adjust the position based on video dimensions
                 .attr("y", location.initial_y - 25)  // Adjust the position based on video dimensions
-                .attr("width", 50)
+                .attr("width", 100)
                 .attr("height", 50)
-                .call(d3.drag()
-                    .on("drag", function (event) {
+                .on("drag", function (event) {
+                    if (!foreignObject.classList.contains('scaled')) { // Only allow dragging if not scaled
                         d3.select(this)
-                            .attr("x", event.x - 25)
-                            .attr("y", event.y - 25);
-                    })
+                            .attr("x", event.x - videoWidth / 2)
+                            .attr("y", event.y - videoHeight / 2);
+                    }
+                }
                 ).node();
 
             foreignObject.appendChild(video);
+
+            // Add hover functionality to enlargen video on hover
+            foreignObject.addEventListener('contextmenu', function (e) {
+                e.preventDefault(); // Prevent the default right-click context menu
+    
+                // Toggle the 'enlarged' state for the video
+                if (foreignObject.style.transform === 'scale(4)') {
+                    foreignObject.style.transform = 'scale(1)';
+                    // foreignObject.style.position = 'relative'; // Reset position
+                    foreignObject.style.zIndex = '1'; // Reset z-index
+                    foreignObject.classList.remove('scaled');
+                } else {
+                    foreignObject.style.transform = 'scale(4)'; // Enlarge the video
+                    foreignObject.style.transition = 'transform 0.3s ease'; // Smooth transition
+                    // foreignObject.style.position = 'absolute'; // Take it out of normal flow
+                    foreignObject.style.zIndex = '100'; // Bring it to the top
+                    foreignObject.classList.add('scaled');
+                }
+            });
         }
     });
 
@@ -374,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.getElementById('saveFinalLocations').addEventListener('click', function() {
+if(document.getElementById('saveFinalLocations') != null) document.getElementById('saveFinalLocations').addEventListener('click', function() {
     let videoSources = [];
     d3.selectAll('foreignObject').each(function() {
         videoSources.push(d3.select(this).attr('data-src')); // Assuming 'data-src' holds the video identifier
@@ -412,6 +463,8 @@ document.addEventListener('DOMContentLoaded', function () {
 function checkClipsInCircle() {
     const notification = document.getElementById('notification');
     const saveButton = document.getElementById('saveFinalLocations');
+
+    if(notification == null || saveButton == null) return;
 
     if (!areClipsWithinCircle()) {
         notification.textContent = 'One or more clips are outside the circle. Please move them into the circle.';

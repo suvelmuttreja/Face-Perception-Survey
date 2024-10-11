@@ -106,7 +106,7 @@ def admin():
 @app.route("/user")
 def user():
     if not session.get("demographics_completed", False):
-        return redirect(url_for("/"))
+        return redirect(url_for("demographics"))
     return render_template("user.html")
 
 
@@ -184,39 +184,38 @@ def save_admin_locations():
     return jsonify({"message": "Admin locations saved successfully"})
 
 
-@app.route('/set_start_time', methods=['POST'])
+@app.route("/set_start_time", methods=["POST"])
 def set_start_time():
-    if 'user_id' not in session:
-        return jsonify({'message': 'User not logged in'}), 401
+    if "user_id" not in session:
+        return jsonify({"message": "User not logged in"}), 401
 
     data = request.get_json()
-    user_id = session['user_id']
+    user_id = session["user_id"]
 
     # Get video sources from the request data
-    video_sources = data.get('videos', [])
+    video_sources = data.get("videos", [])
 
     # Create a UserLocation entry for each video with the initial start_time
     for src in video_sources:
         user_location = UserLocation(
-            src=src,
-            start_time=datetime.utcnow(),
-            user_id=user_id
+            src=src, start_time=datetime.utcnow(), user_id=user_id
         )
         db.session.add(user_location)
 
     db.session.commit()
 
-    return jsonify({'message': 'Start time recorded for all videos'})
+    return jsonify({"message": "Start time recorded for all videos"})
 
-@app.route('/save_end_time', methods=['POST'])
+
+@app.route("/save_end_time", methods=["POST"])
 def save_end_time():
-    if 'user_id' not in session:
-        return jsonify({'message': 'User not logged in'}), 401
+    if "user_id" not in session:
+        return jsonify({"message": "User not logged in"}), 401
 
     data = request.get_json()
-    user_id = session['user_id']
+    user_id = session["user_id"]
 
-    video_sources = data.get('videos', [])
+    video_sources = data.get("videos", [])
 
     # Update the end_time for each video
     for src in video_sources:
@@ -226,7 +225,8 @@ def save_end_time():
 
     db.session.commit()
 
-    return jsonify({'message': 'End time recorded for all videos'})
+    return jsonify({"message": "End time recorded for all videos"})
+
 
 @app.route("/save_user_locations", methods=["POST"])
 def save_user_locations():
