@@ -1,0 +1,11 @@
+python setup_db.py
+
+python add_user.py <username> <password> <is_admin>
+e.g. test test false
+
+python export.py <output_filename>.xlsx"
+
+waitress-serve --listen=0.0.0.0:80 app:app
+
+
+

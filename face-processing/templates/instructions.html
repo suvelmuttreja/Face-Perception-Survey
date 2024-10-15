@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facial Arrangement Experiment Instructions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .page {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        legend h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .continue_button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .continue_button:hover {
+            background-color: #0056b3;
+        }
+
+        .example {
+            width: 45%;
+            margin: 10px;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="instructions_page" class="page">
+        <div id="instructions">
+            <fieldset>
+                <legend><h1>Instructions</h1></legend>
+                <div>
+                    Welcome to the UT Dallas CocoNeuro Lab Face Arrangement Experiment! Thank you for choosing to participate.
+                    <br>
+                <br>
+                    You will be shown sets of video clips on the screen.
+                    All of the video clips start outside of the circle.
+                    You should move the video clips around inside the circle so that clips that are similar to each other in terms of the facial appearance of the main character are close.
+                    The more similar the two clips are in terms of facial appearance, the closer the images should be.
+                <br>
+                <br>
+                    When you're finished, make sure all the video clips are inside the circle, then click 'Save Final Locations' to finalize your arrangement.
+                </div>
+            </fieldset>
+            <form method="POST">
+                <button id="instructions_button" class="continue_button">Continue</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

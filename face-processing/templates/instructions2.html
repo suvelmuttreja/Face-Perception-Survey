@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facial Arrangement Experiment Instructions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .page {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        legend h1 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .continue_button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .continue_button:hover {
+            background-color: #0056b3;
+        }
+
+        .example {
+            width: 45%;
+            margin: 10px;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="instructions_page2" class="page">
+        <div id="instructions2">
+            <fieldset>
+                <legend><h1>Instructions</h1></legend>
+                <div>Below is an example of what the screen looks like before and after arranging the stimuli.</div>
+                <div>
+                    <img src="/Users/Administrator/face-processing/static/example1.png" class="example" alt="Example 1">
+                    <img src="/Users/Administrator/face-processing/static/example2.png" class="example" alt="Example 2">
+                </div>
+                <div>
+                    Keep in mind that after arranging all stimuli:
+                    <ul>
+                        <li>All stimuli should be within the circle.</li>
+                        <li>The more similar the faces are, the closer they should be.</li>
+                    </ul>
+                </div>
+                <div>
+                    There are stimuli all around the circle. If you cannot see the stimuli on the top/bottom of the screen, zoom in and zoom out your browser window until you can see all of them.
+                </div>
+            </fieldset>
+            <form method="POST">
+                <button id="instructions_button" class="continue_button">Continue</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
